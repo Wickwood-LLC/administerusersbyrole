@@ -26,7 +26,7 @@ function administerusersbyrole_permission() {
     if ($rid == $admin_rid) {
       continue;
     }
-    foreach (array('edit', 'cancel') as $op) {
+    foreach (array('view', 'edit', 'cancel') as $op) {
       $perm_string = _administerusersbyrole_build_perm_string($rid, $op);
       $perm_title = ucfirst(($rid === DRUPAL_AUTHENTICATED_RID) ? "$op users with no custom roles" : "$op users with role $role");
       $perms[$perm_string] = array('title' => $perm_title);
@@ -44,7 +44,7 @@ function administerusersbyrole_menu_alter(&$items) {
   if (!module_exists('chain_menu_access')) {
     return;
   }
-  chain_menu_access_chain($items, 'user/%user', '_administerusersbyrole_check_access', array(1, 'edit'), TRUE);
+  chain_menu_access_chain($items, 'user/%user', '_administerusersbyrole_check_access', array(1, 'view'), TRUE);
   chain_menu_access_chain($items, 'user/%user/edit', '_administerusersbyrole_check_access', array(1, 'edit'), TRUE);
   chain_menu_access_chain($items, 'user/%user/cancel', '_administerusersbyrole_check_access', array(1, 'cancel'), TRUE);
   $items['user/%user/cancel']['page callback'] = 'administerusersbyrole_cancel_confirm_wrapper';
